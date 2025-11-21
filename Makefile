@@ -12,13 +12,13 @@ cflags-y += -MMD -MP
 
 ldflags-y += -fuse-ld=lld
 
-.PHONY: all
+PHONY += all
 all:
 
 quiet_cmd_clean = CLEAN   $(BUILD_DIR)
       cmd_clean = rm -rf $(BUILD_DIR)
 
-.PHONY: clean
+PHONY += clean
 clean:
 	$(call cmd,clean)
 
