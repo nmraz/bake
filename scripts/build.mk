@@ -10,6 +10,9 @@ quiet_cmd_ld = LD      $@
 $(BUILD_DIR)/%.elf: FORCE
 	$(call cmd,ld)
 
+quiet_cmd_objcopy = OBJCOPY $@
+      cmd_objcopy = objcopy $(objcopyflags-$@-y) $< $@
+
 bin-outputs = $(bins-y:%=$(BUILD_DIR)/%.elf)
 targets += $(bin-outputs)
 
