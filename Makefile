@@ -2,8 +2,8 @@ MAKEFLAGS += -rR
 
 CC := clang
 
-BUILD_DIR := build
-OBJ_DIR := $(BUILD_DIR)/obj
+BUILD := build
+OBJ := $(BUILD)/obj
 
 include scripts/defs.mk
 
@@ -14,8 +14,8 @@ ldflags-y += -fuse-ld=lld
 PHONY += all
 all:
 
-quiet_cmd_clean = CLEAN   $(BUILD_DIR)
-      cmd_clean = rm -rf $(BUILD_DIR)
+quiet_cmd_clean = CLEAN   $(BUILD)
+      cmd_clean = rm -rf $(BUILD)
 
 PHONY += clean
 clean:

@@ -1,28 +1,28 @@
 quiet_cmd_cc = CC      $@
       cmd_cc = $(CC) $(cflags-y) $(cflags-$(bin-name)-y) $(cflags-$<-y) -c $< -o $@
 
-$(OBJ_DIR)/%.o: %.c FORCE
+$(OBJ)/%.o: %.c FORCE
 	$(call cmd,cc)
 
 quiet_cmd_ld = LD      $@
       cmd_ld = $(CC) $(ldflags-y) $(ldflags-$(bin-name)-y) $(filter %.o,$^) -o $@
 
-$(BUILD_DIR)/%.elf: FORCE
+$(BUILD)/%.elf: FORCE
 	$(call cmd,ld)
 
 quiet_cmd_objcopy = OBJCOPY $@
       cmd_objcopy = objcopy $(objcopyflags-$@-y) $< $@
 
-bin-outputs = $(bins-y:%=$(BUILD_DIR)/%.elf)
+bin-outputs = $(bins-y:%=$(BUILD)/%.elf)
 targets += $(bin-outputs)
 
 define each-bin
-objs-$(bin-name) := $$($(bin-name)-y:%.c=$(OBJ_DIR)/%.o)
+objs-$(bin-name) := $$($(bin-name)-y:%.c=$(OBJ)/%.o)
 
 targets += $$(objs-$(bin-name))
 
-$(BUILD_DIR)/$(bin-name).elf: $$(objs-$(bin-name))
-$(BUILD_DIR)/$(bin-name).elf: bin-name := $(bin-name)
+$(BUILD)/$(bin-name).elf: $$(objs-$(bin-name))
+$(BUILD)/$(bin-name).elf: bin-name := $(bin-name)
 
 depfiles += $$(objs-$(bin-name):%.o=%.d)
 endef
