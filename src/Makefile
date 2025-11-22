@@ -7,3 +7,12 @@ ldflags-mybin-y += -static-pie
 
 bins-y += otherbin
 otherbin-y += src/my_other_main.c
+
+quiet_cmd_mkotherbin = OBJCOPY $@
+      cmd_mkotherbin = objcopy -O binary -j .text $< $@
+
+targets += $(BUILD_DIR)/otherbin.bin
+$(BUILD_DIR)/otherbin.bin: $(BUILD_DIR)/otherbin.elf FORCE
+	$(call cmd,mkotherbin)
+
+all: $(BUILD_DIR)/otherbin.bin

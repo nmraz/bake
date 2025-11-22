@@ -29,7 +29,8 @@ cmd-changed = $(filter-out $(subst $(space),$(space_escape),$(strip $(savedcmd_$
 # (needed for the shell)
 make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1)))))
 
-log-cmd = echo '  $(call escsq,$($(quiet)cmd_$(1)))'
+cmd-name = $($(quiet)cmd_$(1))
+log-cmd = $(if $(cmd-name),echo '  $(call escsq,$(cmd-name))',:)
 
 newer-prereqs = $(filter-out $(PHONY),$?)
 

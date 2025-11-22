@@ -4,9 +4,8 @@ CC := clang
 
 BUILD_DIR := build
 OBJ_DIR := $(BUILD_DIR)/obj
-BIN_DIR := $(BUILD_DIR)/bin
 
-include makefiles/defs.mk
+include scripts/defs.mk
 
 cflags-y += -MMD -MP
 
@@ -24,4 +23,4 @@ clean:
 
 include src/Makefile
 
-include makefiles/build.mk
+include scripts/build.mk
