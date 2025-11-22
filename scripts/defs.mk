@@ -39,7 +39,7 @@ target-check = $(if $(filter $@,$(targets)),,$(error File rule for $@ missing fr
 
 cmd-checks = $(force-check)$(target-check)
 
-cmd-file = $(cmd-checks)$(if $(newer-prereqs)$(cmd-changed),set -e; $(log-cmd); mkdir -p $(@D); $(cmd_$(1)); printf '%s\n' 'savedcmd_$@ := $(make-cmd)' >$@.cmd,:);
+cmd-file = $(cmd-checks)$(if $(newer-prereqs)$(cmd-changed),set -e; $(log-cmd); mkdir -p $(@D); $(cmd_$(1)); printf '%s\n' 'savedcmd_$@ := $(make-cmd)' >$@.cmd)
 cmd-phony = set -e; $(log-cmd); $(cmd_$(1))
 
 is-phony = $(filter $@,$(PHONY))
