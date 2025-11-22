@@ -2,7 +2,10 @@ MAKEFLAGS += -rR
 
 CC := clang
 
-BUILD := build
+BUILD ?= build
+
+# Force $(BUILD) to be evaluated now
+BUILD := $(BUILD)
 OBJ := $(BUILD)/obj
 
 include scripts/defs.mk
