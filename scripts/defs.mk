@@ -32,7 +32,7 @@ make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1))))
 cmd-name = $($(quiet)cmd_$(1))
 log-cmd = $(if $(cmd-name),echo '  $(call escsq,$(cmd-name))',:)
 
-newer-prereqs = $(filter-out $(PHONY),$?)
+newer-prereqs = $(filter-out FORCE,$?)
 
 force-check = $(if $(filter FORCE,$^),,$(error File rule for $@ missing FORCE prerequisite))
 target-check = $(if $(filter $@,$(targets)),,$(error File rule for $@ missing from $$(targets)))
