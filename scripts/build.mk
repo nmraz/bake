@@ -1,9 +1,6 @@
 quiet_cmd_cc = CC      $@
       cmd_cc = $(CC) -MMD -MP $(cflags-y) $(cflags-$(linktarget)-y) $(cflags-$<-y) -c $< -o $@
 
-$(OBJ)/%.o: %.c FORCE
-	$(call cmd,cc)
-
 all-ldlibs = $(addprefix -l,$(ldlibs-$(bin-name)-y))
 
 quiet_cmd_ld = LD      $@
@@ -13,11 +10,13 @@ bin-outputs = $(addprefix $(BUILD)/,$(bins-y))
 targets += $(bin-outputs)
 
 define each-bin
-objs-$(bin-name) := $$($(bin-name)-y:%.c=$(OBJ)/%.o) $$(objs-$(bin-name))
+objs-$(bin-name) := $$($(bin-name)-y:%.c=$(OBJ)/$(bin-name)/%.o) $$(objs-$(bin-name))
 
 targets += $$(objs-$(bin-name))
 
 $$(objs-$(bin-name)): private linktarget := $(bin-name)
+$$(objs-$(bin-name)): $(OBJ)/$(bin-name)/%.o: %.c FORCE
+	$$(call cmd,cc)
 
 $(BUILD)/$(bin-name): private bin-name := $(bin-name)
 $(BUILD)/$(bin-name): $$(objs-$(bin-name)) FORCE
