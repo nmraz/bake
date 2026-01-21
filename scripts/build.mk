@@ -7,9 +7,6 @@ $(OBJ)/%.o: %.c FORCE
 quiet_cmd_ld = LD      $@
       cmd_ld = $(CC) $(ldflags-y) $(ldflags-$(bin-name)-y) $(objs-$(bin-name)) -o $@
 
-quiet_cmd_objcopy = OBJCOPY $@
-      cmd_objcopy = objcopy $(objcopyflags-$@-y) $< $@
-
 bin-outputs = $(addprefix $(BUILD)/,$(bins-y))
 targets += $(bin-outputs)
 

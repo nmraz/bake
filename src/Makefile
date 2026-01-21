@@ -8,10 +8,11 @@ ldflags-mybin-y += -static-pie
 bins-y += otherbin
 otherbin-y += src/my_other_main.c
 
-objcopyflags-$(BUILD)/otherbin.bin-y := -O binary -j .text -j .rodata
+quiet_cmd_mkotherbin = OBJCOPY $@
+      cmd_mkotherbin = objcopy -O binary -j .text $< $@
 
 targets += $(BUILD)/otherbin.bin
 $(BUILD)/otherbin.bin: $(BUILD)/otherbin FORCE
-	$(call cmd,objcopy)
+	$(call cmd,mkotherbin)
 
 all: $(BUILD)/otherbin.bin
