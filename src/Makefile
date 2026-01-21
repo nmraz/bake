@@ -11,7 +11,7 @@ otherbin-y += src/my_other_main.c
 objcopyflags-$(BUILD)/otherbin.bin-y := -O binary -j .text -j .rodata
 
 targets += $(BUILD)/otherbin.bin
-$(BUILD)/otherbin.bin: $(BUILD)/otherbin.elf FORCE
+$(BUILD)/otherbin.bin: $(BUILD)/otherbin FORCE
 	$(call cmd,objcopy)
 
 all: $(BUILD)/otherbin.bin
