@@ -10,8 +10,6 @@ OBJ := $(BUILD)/obj
 
 include scripts/defs.mk
 
-cflags-y += -MMD -MP
-
 ldflags-y += -fuse-ld=lld
 
 PHONY += all

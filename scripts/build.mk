@@ -1,5 +1,5 @@
 quiet_cmd_cc = CC      $@
-      cmd_cc = $(CC) $(cflags-y) $(cflags-$(bin-name)-y) $(cflags-$<-y) -c $< -o $@
+      cmd_cc = $(CC) -MMD -MP $(cflags-y) $(cflags-$(bin-name)-y) $(cflags-$<-y) -c $< -o $@
 
 $(OBJ)/%.o: %.c FORCE
 	$(call cmd,cc)
