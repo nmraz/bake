@@ -39,5 +39,6 @@ depfiles += $(existing-targets:%=%.cmd)
 
 .PHONY: $(PHONY)
 .DELETE_ON_ERROR:
+.SECONDARY:
 
 -include $(depfiles)
