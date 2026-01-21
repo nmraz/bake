@@ -4,8 +4,10 @@ quiet_cmd_cc = CC      $@
 $(OBJ)/%.o: %.c FORCE
 	$(call cmd,cc)
 
+all-ldlibs = $(addprefix -l,$(ldlibs-$(bin-name)-y))
+
 quiet_cmd_ld = LD      $@
-      cmd_ld = $(CC) $(ldflags-y) $(ldflags-$(bin-name)-y) $(objs-$(bin-name)) -o $@
+      cmd_ld = $(CC) $(ldflags-y) $(ldflags-$(bin-name)-y) $(objs-$(bin-name)) $(all-ldlibs) -o $@
 
 bin-outputs = $(addprefix $(BUILD)/,$(bins-y))
 targets += $(bin-outputs)
