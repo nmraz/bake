@@ -37,14 +37,16 @@ newer-prereqs = $(filter-out $(PHONY),$?)
 force-check = $(if $(filter FORCE,$^),,$(error File rule for $@ missing FORCE prerequisite))
 target-check = $(if $(filter $@,$(targets)),,$(error File rule for $@ missing from $$(targets)))
 
-cmd-checks = $(force-check)$(target-check)
+file-checks = $(force-check)$(target-check)
 
-cmd-file = $(cmd-checks)$(if $(newer-prereqs)$(cmd-changed),set -e; $(log-cmd); mkdir -p $(@D); $(cmd_$(1)); printf '%s\n' 'savedcmd_$@ := $(make-cmd)' >$@.cmd)
+check-cmd = $(if $@,,$(error $$(cmd) invoked outside of rule; did you indent with spaces instead of tabs?))
+
+cmd-file = $(file-checks)$(if $(newer-prereqs)$(cmd-changed),set -e; $(log-cmd); mkdir -p $(@D); $(cmd_$(1)); printf '%s\n' 'savedcmd_$@ := $(make-cmd)' >$@.cmd)
 cmd-phony = set -e; $(log-cmd); $(cmd_$(1))
 
 is-phony = $(filter $@,$(PHONY))
 
-cmd = @$(if $(is-phony),$(cmd-phony),$(cmd-file))
+cmd = @$(check-cmd)$(if $(is-phony),$(cmd-phony),$(cmd-file))
 
 cflags-y :=
 bins-y :=
