@@ -13,20 +13,23 @@ quiet_cmd_ar = AR      $@
 bin-outputs = $(addprefix $(BUILD)/,$(bins-y))
 targets += $(bin-outputs)
 
-define each-bin
-objs-$(bin-name) := $$($(bin-name)-y:%.c=$(OBJ)/$(bin-name)/%.o) $$(objs-$(bin-name))
+define build-objs
+objs-$1 := $$($1-y:%.c=$(OBJ)/$1/%.o) $$(objs-$1)
 
-targets += $$(objs-$(bin-name))
-
-$$(objs-$(bin-name)): private linktarget := $(bin-name)
-$$(objs-$(bin-name)): $(OBJ)/$(bin-name)/%.o: %.c $(ccdeps-y) $(ccdeps-$(bin-name)-y) FORCE | $(ccodeps-y) $(ccodeps-$(bin-name)-y)
+$$(objs-$1): private linktarget := $1
+$$(objs-$1): $(OBJ)/$1/%.o: %.c $(ccdeps-y) $(ccdeps-$1-y) FORCE | $(ccodeps-y) $(ccodeps-$1-y)
 	$$(call cmd,cc)
+
+targets += $$(objs-$1)
+depfiles += $$(objs-$1:%.o=%.d)
+endef
+
+define each-bin
+$(call build-objs,$(bin-name))
 
 $(BUILD)/$(bin-name): private bin-name := $(bin-name)
 $(BUILD)/$(bin-name): $$(objs-$(bin-name)) $$(ldbuiltlibs) $(lddeps-y) $(lddeps-$(bin-name)-y) FORCE
 	$$(call cmd,ld)
-
-depfiles += $$(objs-$(bin-name):%.o=%.d)
 endef
 
 $(foreach bin-name,$(bins-y),$(eval $(each-bin)))
@@ -35,19 +38,11 @@ lib-outputs = $(libs-y:%=$(BUILD)/%.a)
 targets += $(lib-outputs)
 
 define each-lib
-objs-$(lib-name) := $$($(lib-name)-y:%.c=$(OBJ)/$(lib-name)/%.o) $$(objs-$(lib-name))
-
-targets += $$(objs-$(lib-name))
-
-$$(objs-$(lib-name)): private linktarget := $(lib-name)
-$$(objs-$(lib-name)): $(OBJ)/$(lib-name)/%.o: %.c $(ccdeps-y) $(ccdeps-$(lib-name)-y) FORCE | $(ccodeps-y) $(ccodeps-$(lib-name)-y)
-	$$(call cmd,cc)
+$(call build-objs,$(lib-name))
 
 $(BUILD)/$(lib-name).a: private lib-name := $(lib-name)
 $(BUILD)/$(lib-name).a: $$(objs-$(lib-name)) FORCE
 	$$(call cmd,ar)
-
-depfiles += $$(objs-$(lib-name):%.o=%.d)
 endef
 
 $(foreach lib-name,$(libs-y),$(eval $(each-lib)))
