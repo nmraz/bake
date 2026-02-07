@@ -19,11 +19,11 @@ objs-$(bin-name) := $$($(bin-name)-y:%.c=$(OBJ)/$(bin-name)/%.o) $$(objs-$(bin-n
 targets += $$(objs-$(bin-name))
 
 $$(objs-$(bin-name)): private linktarget := $(bin-name)
-$$(objs-$(bin-name)): $(OBJ)/$(bin-name)/%.o: %.c FORCE
+$$(objs-$(bin-name)): $(OBJ)/$(bin-name)/%.o: %.c $(ccdeps-y) $(ccdeps-$(bin-name)-y) FORCE | $(ccodeps-y) $(ccodeps-$(bin-name)-y)
 	$$(call cmd,cc)
 
 $(BUILD)/$(bin-name): private bin-name := $(bin-name)
-$(BUILD)/$(bin-name): $$(objs-$(bin-name)) $$(ldbuiltlibs) FORCE
+$(BUILD)/$(bin-name): $$(objs-$(bin-name)) $$(ldbuiltlibs) $(lddeps-y) $(lddeps-$(bin-name)-y) FORCE
 	$$(call cmd,ld)
 
 depfiles += $$(objs-$(bin-name):%.o=%.d)
@@ -40,7 +40,7 @@ objs-$(lib-name) := $$($(lib-name)-y:%.c=$(OBJ)/$(lib-name)/%.o) $$(objs-$(lib-n
 targets += $$(objs-$(lib-name))
 
 $$(objs-$(lib-name)): private linktarget := $(lib-name)
-$$(objs-$(lib-name)): $(OBJ)/$(lib-name)/%.o: %.c FORCE
+$$(objs-$(lib-name)): $(OBJ)/$(lib-name)/%.o: %.c $(ccdeps-y) $(ccdeps-$(lib-name)-y) FORCE | $(ccodeps-y) $(ccodeps-$(lib-name)-y)
 	$$(call cmd,cc)
 
 $(BUILD)/$(lib-name).a: private lib-name := $(lib-name)
