@@ -1,5 +1,7 @@
 #include "my.h"
 
+extern int asm_func(void);
+
 int main(void) {
-    return 0;
+    return asm_func();
 }

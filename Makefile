@@ -1,6 +1,7 @@
 MAKEFLAGS += -rR
 
 CC := clang
+AS := clang
 AR := llvm-ar
 
 BUILD ?= build

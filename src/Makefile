@@ -12,6 +12,7 @@ ldbuiltlibs-mybin-y += mylib
 
 bins-y += otherbin
 otherbin-y += src/my_other_main.c
+otherbin-y += src/my_other_asm.S
 ldbuiltlibs-otherbin-y += mylib
 
 quiet_cmd_mkotherbin = OBJCOPY $@
