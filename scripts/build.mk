@@ -8,7 +8,7 @@ quiet_cmd_ld = LD      $@
       cmd_ld = $(CC) $(ldflags-y) $(ldflags-$(bin-name)-y) $(objs-$(bin-name)) $(all-ldlibs) -o $@
 
 quiet_cmd_ar = AR      $@
-      cmd_ar = rm -f $@; $(AR) rcs $@ $(objs-$(lib-name))
+      cmd_ar = rm -f $@; $(AR) rcs --thin $@ $(objs-$(lib-name))
 
 bin-outputs = $(addprefix $(BUILD)/,$(bins-y))
 targets += $(bin-outputs)
