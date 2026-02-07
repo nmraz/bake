@@ -1,7 +1,7 @@
 quiet_cmd_cc = CC      $@
       cmd_cc = $(CC) -MMD -MP $(cflags-y) $(cflags-$(linktarget)-y) $(cflags-$<-y) -c $< -o $@
 
-ldbuiltlibs = $(ldbuiltlibs-$(bin-name)-y:%=$(BUILD)/%.a)
+ldbuiltlibs = $(ldbuiltlibs-$(bin-name)-y:%=$(OBJ)/%.a)
 all-ldlibs = $(addprefix -l,$(ldlibs-$(bin-name)-y)) $(ldbuiltlibs)
 
 quiet_cmd_ld = LD      $@
@@ -34,14 +34,14 @@ endef
 
 $(foreach bin-name,$(bins-y),$(eval $(each-bin)))
 
-lib-outputs = $(libs-y:%=$(BUILD)/%.a)
+lib-outputs = $(libs-y:%=$(OBJ)/%.a)
 targets += $(lib-outputs)
 
 define each-lib
 $(call build-objs,$(lib-name))
 
-$(BUILD)/$(lib-name).a: private lib-name := $(lib-name)
-$(BUILD)/$(lib-name).a: $$(objs-$(lib-name)) FORCE
+$(OBJ)/$(lib-name).a: private lib-name := $(lib-name)
+$(OBJ)/$(lib-name).a: $$(objs-$(lib-name)) FORCE
 	$$(call cmd,ar)
 endef
 
